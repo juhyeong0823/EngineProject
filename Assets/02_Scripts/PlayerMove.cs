@@ -1,22 +1,64 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PlayerMove : MonoBehaviour
 {
-    //하루 치 운동시간이 지나면 몸무게 빼고 다음날로 넘기거나 운동 중지
-    public float moveDistance;
+    float x;
+    float playerHeight;
+    public int jumpCount = 0;
     public float speed;
+    public float jumpPower;
 
-    PlayerStatus playerStat;
+    public bool canJump = true;
+
+    Rigidbody2D rigid;
+    SpriteRenderer sr;
+
+    public LayerMask isGround;
+    public Transform rayPoint;
 
     void Start()
     {
-        playerStat = GameObject.Find("Player").GetComponent<PlayerStatus>();
+        rigid = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
-        moveDistance += speed;
+        GroundedCheck();
+        Move();
+        Jump();
+    }
+
+    void Move()
+    {
+        x = Input.GetAxisRaw("Horizontal");
+        rigid.velocity = new Vector2(x * speed, rigid.velocity.y);
+    }
+
+    void Jump()
+    {
+        if (Input.GetButtonDown("Jump") && canJump)
+        {
+            rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+            jumpCount++;
+        }
+    }
+
+    void GroundedCheck()
+    {
+        if (Physics2D.Raycast(rayPoint.position, Vector2.down, 1f, isGround)) jumpCount = 0;
+        if (jumpCount < 2) canJump = true;
+        else canJump = false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.CompareTag("Obstacle"))
+        {
+            Debug.Log("아파");
+        }
     }
 }
