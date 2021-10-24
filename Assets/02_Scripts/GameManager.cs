@@ -32,5 +32,14 @@ public class GameManager : MonoBehaviour
 
     public WaitForSeconds sec1 = new WaitForSeconds(1f);
 
+    int dayCount = 1;
+    string date = string.Empty;
 
+    public bool canExercise = true;
+
+    public void UpdateDate(float dateString)
+    {
+        dayCount++;
+        date = dateString.ToString();
+    }
 }
