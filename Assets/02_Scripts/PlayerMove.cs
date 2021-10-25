@@ -6,7 +6,6 @@ using DG.Tweening;
 public class PlayerMove : MonoBehaviour
 {
     float x;
-    float playerHeight;
     public int jumpCount = 0;
     public float speed;
     public float jumpPower;
@@ -19,7 +18,9 @@ public class PlayerMove : MonoBehaviour
     public LayerMask isGround;
     public Transform rayPoint;
 
-    void Start()
+    WaitForSeconds ws = new WaitForSeconds(0.2f);
+
+    void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
@@ -35,21 +36,30 @@ public class PlayerMove : MonoBehaviour
     void Move()
     {
         x = Input.GetAxisRaw("Horizontal");
-        rigid.velocity = new Vector2(x * speed, rigid.velocity.y);
+
+        if (!Physics2D.Raycast(rayPoint.position, Vector2.down, 0.2f, isGround) && rigid.velocity.y == 0)
+        {
+            rigid.velocity = new Vector2(0, -4);
+        }
+        else
+        {
+            rigid.velocity = new Vector2(x * speed, rigid.velocity.y);
+        }
+        
     }
 
     void Jump()
     {
         if (Input.GetButtonDown("Jump") && canJump)
         {
-            rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+            rigid.velocity = new Vector2(rigid.velocity.x, jumpPower);
             jumpCount++;
         }
     }
 
     void GroundedCheck()
     {
-        if (Physics2D.Raycast(rayPoint.position, Vector2.down, 1f, isGround)) jumpCount = 0;
+        if (Physics2D.Raycast(rayPoint.position, Vector2.down, 0.2f, isGround)) jumpCount = 0;
         if (jumpCount < 2) canJump = true;
         else canJump = false;
     }
@@ -58,7 +68,21 @@ public class PlayerMove : MonoBehaviour
     {
         if (col.CompareTag("Obstacle"))
         {
-            Debug.Log("아파");
+            Debug.Log("에잉");
+            StartCoroutine(Hitted());
+        }
+    }
+
+
+    IEnumerator Hitted()
+    {
+        Color myColor = sr.color;
+        for (int i = 0; i < 2; i++)
+        {
+            yield return ws;
+            sr.color = Color.gray; // 맞았을 때 투명하게
+            yield return ws;
+            sr.color = myColor; // 다시 자시 색으로
         }
     }
 }

@@ -30,16 +30,13 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    public WaitForSeconds sec1 = new WaitForSeconds(1f);
+    public List<GameObject> animationObj = new List<GameObject>();
 
-    int dayCount = 1;
-    string date = string.Empty;
-
-    public bool canExercise = true;
-
-    public void UpdateDate(float dateString)
+    public void AnimationOff()
     {
-        dayCount++;
-        date = dateString.ToString();
+        foreach(var anim in animationObj)
+        {
+            anim.SetActive(false);
+        }
     }
 }
