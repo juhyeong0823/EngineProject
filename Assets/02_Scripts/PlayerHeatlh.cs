@@ -17,16 +17,24 @@ public class PlayerHeatlh : MonoBehaviour
     {
         if (col.CompareTag("Obstacle"))
         {
-            hp--;
-            if (hp > 0)
+            try
             {
-                UIManager.instance.HpImageFill(UIManager.instance.hpImages[UIManager.instance.hpImages.Count - (hp + 1)], false);
+                hp--;
+                if (hp > 0)
+                {
+                    UIManager.instance.HpImageFill(UIManager.instance.hpImages[UIManager.instance.hpImages.Count - (hp + 1)], false);
+                }
+                else if (hp == 0)
+                {
+                    UIManager.instance.HpImageFill(UIManager.instance.hpImages[UIManager.instance.hpImages.Count - (hp + 1)], false);
+                    UIManager.instance.GameOver();
+                }
             }
-            else
+            catch
             {
-                UIManager.instance.HpImageFill(UIManager.instance.hpImages[UIManager.instance.hpImages.Count - (hp + 1)], false);
-                UIManager.instance.GameOver();
+                Debug.Log("리스트 인덱스 오류");
             }
+            
         }
     }
 }

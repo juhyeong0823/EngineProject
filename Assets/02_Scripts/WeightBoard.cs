@@ -35,7 +35,7 @@ public class WeightBoard : MonoBehaviour
 
                 //if (textValue % 10 == 0)
                 //{
-                    weightText.fontSize = 30;
+                    weightText.fontSize = 50;
                 //    weightText.fontStyle = FontStyle.Bold;
                 //}
             }

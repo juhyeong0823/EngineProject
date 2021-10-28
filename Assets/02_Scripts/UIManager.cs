@@ -2,13 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    #region
+    #region ΩÃ±€≈Ê
     private static UIManager Instance = null;
     public static UIManager instance
     {
@@ -35,9 +36,12 @@ public class UIManager : MonoBehaviour
     #endregion
 
     public CanvasGroup gameOverPanel;
+    public GameObject resultPanel;
 
     public Text scoreText;
+
     public List<Image> hpImages = new List<Image>();
+
     private PlayerHeatlh player;
 
     public Button retryBtn;
@@ -45,7 +49,7 @@ public class UIManager : MonoBehaviour
     public Transform hpTrm;
     public Image hpImage;
     public int hpCount = 3;
-    public float score = 10;
+    public float score = 0;
 
     private void Start()
     {
@@ -66,7 +70,7 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         score += Time.deltaTime;
-        scoreText.text = score.ToString("0");
+        scoreText.text = Mathf.Floor(score).ToString();
     }
 
     public void PlusMaxHP()
@@ -82,8 +86,6 @@ public class UIManager : MonoBehaviour
         if (fill) img.color = Color.red;
         else img.color = Color.gray;
     }
-
-
     
     void ButtonsInit()
     {
@@ -98,6 +100,9 @@ public class UIManager : MonoBehaviour
     {
         PanelOn(gameOverPanel);
         GameManager.instance.AnimationOff();
+        PlayerMove.canMove = false;
+
+        resultPanel.GetComponent<ShowResult>().ShowScore();
     }
 
     void PanelOff(CanvasGroup panel)

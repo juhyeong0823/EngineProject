@@ -1,0 +1,298 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1089990164452797572
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1089990164452797573}
+  m_Layer: 0
+  m_Name: First
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1089990164452797573
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1089990164452797572}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 36929812884888754}
+  m_Father: {fileID: 1089990165246562905}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1089990165246562904
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1089990165246562905}
+  - component: {fileID: 1089990165246562906}
+  - component: {fileID: 2436328535708197001}
+  - component: {fileID: 6094161491943287220}
+  m_Layer: 0
+  m_Name: PopCorn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1089990165246562905
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1089990165246562904}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.16, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1089990164452797573}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1089990165246562906
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1089990165246562904}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 18d3a9cf47cf3ab44bc26c98a5b98b26, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2436328535708197001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1089990165246562904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85d519d256cb116489ef4834e7fd0cd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popCornPrefab: {fileID: 0}
+  spawnPos: {x: 0, y: 0, z: 0}
+--- !u!114 &6094161491943287220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1089990165246562904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d482cea4553b02447a6f0c5b05a49b14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &1089990164537281073
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1089990164452797573}
+    m_Modifications:
+    - target: {fileID: 400175653612663426, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400175653612663426, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_Color.b
+      value: 0.4660377
+      objectReference: {fileID: 0}
+    - target: {fileID: 400175653612663426, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_Color.g
+      value: 0.8694398
+      objectReference: {fileID: 0}
+    - target: {fileID: 400175653612663426, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400175653612663426, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126849058361218210, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126849058361218210, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126849058361218221, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_Name
+      value: popCorn2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126849058364331650, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_Name
+      value: popcornBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126849058364331651, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126849058364331651, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126849058364331651, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126849058364331651, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.378068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126849058364331651, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126849058364331651, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126849058364331651, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126849058364331651, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126849058364331651, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126849058364331651, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126849058364331651, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126849059569859304, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.26
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126849059569859304, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.58
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126849059569859307, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_Name
+      value: popCorn3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126849060011804896, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.2514997
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126849060011804896, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126849060011804899, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_Name
+      value: popCorn1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2074444704656752016, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_Name
+      value: Bottom
+      objectReference: {fileID: 0}
+    - target: {fileID: 5496187226282837055, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.252
+      objectReference: {fileID: 0}
+    - target: {fileID: 6555287416927704094, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6555287416927704094, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_Color.b
+      value: 0.4660377
+      objectReference: {fileID: 0}
+    - target: {fileID: 6555287416927704094, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_Color.g
+      value: 0.8694398
+      objectReference: {fileID: 0}
+    - target: {fileID: 6555287416927704094, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6555287416927704094, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586623242198900278, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586623242198900278, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586623242198900278, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586623242198900278, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586623242198900278, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8949922743256874422, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8949922743256874422, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_Color.b
+      value: 0.4660377
+      objectReference: {fileID: 0}
+    - target: {fileID: 8949922743256874422, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_Color.g
+      value: 0.8694398
+      objectReference: {fileID: 0}
+    - target: {fileID: 8949922743256874422, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8949922743256874422, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+--- !u!4 &36929812884888754 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1126849058364331651, guid: ba3a35203f9e7a74a9804cc50635a6ef, type: 3}
+  m_PrefabInstance: {fileID: 1089990164537281073}
+  m_PrefabAsset: {fileID: 0}
