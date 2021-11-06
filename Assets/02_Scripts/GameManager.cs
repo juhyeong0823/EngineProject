@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            if(Instance == null)
+            if (Instance == null)
             {
                 return null;
             }
@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     }
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -32,48 +32,97 @@ public class GameManager : MonoBehaviour
     #endregion
 
     public List<GameObject> animObjPrefab = new List<GameObject>();
-    public List<GameObject> animObj = new List<GameObject>();
+    public List<GameObject> animObjs = new List<GameObject>();
     [SerializeField] private GameObject playingAnimObj;
-    float changeDelay = 3f;
+
+    private Transform startPos; // 게임시작 위치
+    public GameObject player;
+    public int hpCount = 3;
+
+    public float score = 0;
+    public float scoreUpSpeed = 10f;
 
     private void Start()
     {
-        if (animObjPrefab.Count <= 0)
+        startPos = player.transform;
+        InitGameData();
+    }
+
+    private void Update()
+    {
+        ScoreUpdate();
+
+        if (Input.GetKeyDown(KeyCode.Escape)) GameOver();
+    }
+
+    public void InitGameData()
+    {
+        score = 0;
+        player.transform.position = startPos.position;
+    }
+
+    public void GameOver()
+    {
+        PlayerMove.canMove = false;
+        AnimationOff();
+        UIManager.instance.ShowResult();
+    }
+
+    public void GameStart()
+    {
+        PlayerMove.canMove = true;
+        Init_animObjs();
+        RandomPattern();
+    }
+
+    void ScoreUpdate()
+    {
+        if (PlayerMove.canMove)
         {
-            Debug.Log("만들 애니메이션이 없어");
-            return;
+            score += scoreUpSpeed * Time.deltaTime;
+            UIManager.instance.SetText(UIManager.instance.scoreText, Mathf.Floor(score).ToString());
         }
+    }
+
+    public void PlusScore(int plusValue)
+    {
+        score += plusValue;
+        UIManager.instance.SetText(UIManager.instance.scoreText, Mathf.Floor(score).ToString());
+    }
+
+
+    void Init_animObjs()
+    {
         foreach (var item in animObjPrefab)
         {
             GameObject obj = Instantiate(item, this.transform);
-            animObj.Add(obj);
+            animObjs.Add(obj);
         }
-        RandomPattern();
-        //StartCoroutine(ChangeColor());
     }
 
-    public void AnimationOff()
+    public void OnGameOver()
     {
-        foreach(var anim in animObj)
-        {
-            anim.SetActive(false);
-        }
+        AnimationOff();
+        playingAnimObj = null;
     }
 
     public void RandomPattern()
     {
-        if (animObj.Count <= 0)
+        if (animObjPrefab.Count <= 0) return;
+
+        animObjs.Clear();
+        if (animObjs.Count <= 0)
         {
             foreach (var item in animObjPrefab)
             {
-                animObj.Add(item);
+                animObjs.Add(item);
             }
         }
 
-        int rand = Random.Range(0, animObj.Count - 1);
-        animObj[rand].SetActive(true);
-        animObj.Remove(playingAnimObj);
-        playingAnimObj = animObj[rand];
+        int rand = Random.Range(0, animObjs.Count - 1);
+        animObjs[rand].SetActive(true);
+        animObjs.Remove(playingAnimObj);
+        playingAnimObj = animObjs[rand];
     }
 
     public void OffPlayingAnim()
@@ -81,23 +130,11 @@ public class GameManager : MonoBehaviour
         playingAnimObj.SetActive(false);
     }
 
-    //IEnumerator ChangeColor()
-    //{
-    //    while (true)
-    //    {
-    //        Color targetColor = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 0.5f));
-
-    //        float t = 0;
-    //        while (true)
-    //        {
-    //            Color c = Color.Lerp(neonMat.GetColor("_EmissionColor"), targetColor, Time.deltaTime * changeDelay);
-    //            neonMat.SetColor("_EmissionColor", c);
-    //            yield return null;
-
-    //            t += Time.deltaTime;
-
-    //            if (t >= changeDelay) break;
-    //        }
-    //    }
-    //}
+    public void AnimationOff()
+    {
+        foreach (var anim in animObjs)
+        {
+            anim.SetActive(false);
+        }
+    }
 }

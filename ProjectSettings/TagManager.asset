@@ -17,8 +17,8 @@ TagManager:
   - NoCollision
   - Player
   - Background
-  - 
-  - 
+  - PostProcessObj
+  - Panels
   - 
   - 
   - 
@@ -45,4 +45,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 1153235915
+    locked: 0
+  - name: Panels
+    uniqueID: 3542646015
     locked: 0
