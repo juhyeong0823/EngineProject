@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.EventSystems;
 
 public class UIManager : MonoBehaviour
 {
@@ -45,7 +46,7 @@ public class UIManager : MonoBehaviour
     public CanvasGroup resultPanel;
     public Image startPanel; //패널오브젝트임
     public CanvasGroup countdownPanel; // 321 시작!
-
+    public CanvasGroup ingameUIPanel;
 
     private PlayerHeatlh player;
 
@@ -115,6 +116,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowResult()
     {
+        ingameUIPanel.transform.DOMoveY(ingameUIPanel.transform.position.y - 35, 0.5f);
         resultPanel.transform.DOMoveY(resultPanel.transform.position.y - 120, 1f).OnComplete(() =>
         resultPanel.GetComponentInChildren<ShowResult>().ShowScore());
     }
@@ -241,9 +243,13 @@ public class UIManager : MonoBehaviour
             countdownText.text = i.ToString();
             yield return halfSec;
         }
-        countdownText.text = "시작!";
+        ingameUIPanel.transform.DOMoveY(ingameUIPanel.transform.position.y + 35, 0.5f);
         yield return halfSec;
+        countdownText.text = "시작!";
+
         PanelOff(countdownPanel);
         GameManager.instance.GameStart();
     }
+
+
 }
