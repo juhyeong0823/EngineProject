@@ -11,12 +11,12 @@ public class PlayerMove : MonoBehaviour
 
     public static bool canMove = false;
     public bool canJump = true;
-    
+
     public int jumpCount = 0;
     public int maxJumpCount = 2;
     public float speed;
     public float jumpPower;
-    private float x = 0f;
+    public float x = 0f;
 
     Rigidbody2D rigid;
     SpriteRenderer sr;
@@ -41,21 +41,25 @@ public class PlayerMove : MonoBehaviour
         }
         GroundedCheck();
         Move();
+<<<<<<< HEAD
         Jump();
         
+=======
+
+        if (Input.GetButtonDown("Jump")) Jump();
+>>>>>>> da6c25027cef4034a303cd2195de733680834725
     }
 
     void Move()
     {
-        x = Input.GetAxisRaw("Horizontal");
-        transform.position = new Vector2(Mathf.Clamp(transform.position.x, -8.5f, 8.5f),transform.position.y);
-
+        //x = Input.GetAxisRaw("Horizontal");
+        transform.position = new Vector2(Mathf.Clamp(transform.position.x, -8.5f, 8.5f), transform.position.y);
         rigid.velocity = new Vector2(x * speed, rigid.velocity.y);
     }
 
-    void Jump()
+    public void Jump()
     {
-        if (Input.GetButtonDown("Jump") && canJump)
+        if (canJump)
         {
             rigid.velocity = new Vector2(rigid.velocity.x, jumpPower);
             jumpCount++;
