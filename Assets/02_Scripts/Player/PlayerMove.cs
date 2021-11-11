@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class PlayerMove : MonoBehaviour
 {
+    GraphicRaycaster gr;
+
     public static bool canMove = false;
     public bool canJump = true;
     
@@ -17,13 +21,13 @@ public class PlayerMove : MonoBehaviour
     Rigidbody2D rigid;
     SpriteRenderer sr;
 
-
     WaitForSeconds ws1 = new WaitForSeconds(0.2f); // ÇÇ°Ý½Ã ¹ÝÂ¦¹ÝÂ¦ µô·¹ÀÌ
 
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
+        gr = GetComponent<GraphicRaycaster>();
     }
 
 
@@ -38,6 +42,7 @@ public class PlayerMove : MonoBehaviour
         GroundedCheck();
         Move();
         Jump();
+        
     }
 
     void Move()
@@ -63,11 +68,16 @@ public class PlayerMove : MonoBehaviour
         else canJump = false;
     }
 
+
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.CompareTag("Obstacle"))
         {
             StartCoroutine(Hitted());
+        }
+        else if (col.CompareTag("PlayerDroppedChecker"))
+        {
+            Dropped();
         }
     }
 
@@ -77,6 +87,22 @@ public class PlayerMove : MonoBehaviour
         {
             jumpCount = 0;
         }
+    }
+
+    void Dropped()
+    {
+        
+        StartCoroutine(ReSpawn());
+        StartCoroutine(Hitted());
+    }
+
+    IEnumerator ReSpawn()
+    {
+        transform.position = new Vector3(0, 4, 0);
+        rigid.velocity = new Vector3(0, 0, 0);
+        float gravity = rigid.gravityScale;
+        yield return new WaitForSeconds(2f);
+        rigid.gravityScale = gravity;
     }
 
     IEnumerator Hitted()

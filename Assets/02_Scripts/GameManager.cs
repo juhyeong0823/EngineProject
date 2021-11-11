@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
@@ -35,8 +35,10 @@ public class GameManager : MonoBehaviour
     public List<GameObject> animObjs = new List<GameObject>();
     [SerializeField] private GameObject playingAnimObj;
 
-    private Transform startPos; // 게임시작 위치
+    private Transform pOriginPos; // 플레이어 기존 위치
+    private Transform gOriginPos; // 바닥 기존 위치
     public GameObject player;
+    public GameObject ground;
     public int hpCount = 3;
 
     public float score = 0;
@@ -44,7 +46,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        startPos = player.transform;
+        pOriginPos = player.transform;
+        gOriginPos = ground.transform;
         InitGameData();
     }
 
@@ -58,7 +61,7 @@ public class GameManager : MonoBehaviour
     public void InitGameData()
     {
         score = 0;
-        player.transform.position = startPos.position;
+        player.transform.position = pOriginPos.position;
     }
 
     public void GameOver()
@@ -74,6 +77,8 @@ public class GameManager : MonoBehaviour
         Init_animObjs();
         RandomPattern();
     }
+
+
 
     void ScoreUpdate()
     {
@@ -106,6 +111,7 @@ public class GameManager : MonoBehaviour
         playingAnimObj = null;
     }
 
+
     public void RandomPattern()
     {
         if (animObjPrefab.Count <= 0) return;
@@ -137,4 +143,37 @@ public class GameManager : MonoBehaviour
             anim.SetActive(false);
         }
     }
+
+
+    #region Anim Function
+
+    public void GroundMoveUp() {
+        ground.transform.DOMoveY(ground.transform.position.y + 5f, 1.5f);
+        ground.GetComponent<BoxCollider2D>().enabled = false;
+    }
+
+    public void GroundMoveDown() { 
+        ground.transform.DOMoveY(ground.transform.position.y - 5f, 1.5f);
+        ground.GetComponent<BoxCollider2D>().enabled = false;
+    }
+
+    public void GroundMoveRight() { 
+        ground.transform.DOMoveX(ground.transform.position.x - 5f, 1.5f);
+        ground.GetComponent<BoxCollider2D>().enabled = false;
+    }
+
+    public void GroundMoveLeft() { 
+        ground.transform.DOMoveX(ground.transform.position.x - 5f, 1.5f);
+        ground.GetComponent<BoxCollider2D>().enabled = false;
+    }
+
+    //애는 바닥 이동하는 애니메이션이 끝나면 실행해서 다시 돌려보내고..
+    public void GroundMoveOriginPos() {
+        ground.transform.DOMove(gOriginPos.position, 1.5f);
+        ground.GetComponent<BoxCollider2D>().enabled = true;
+    }
+
+
+    #endregion
+
 }
