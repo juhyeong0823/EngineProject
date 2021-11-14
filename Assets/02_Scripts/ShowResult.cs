@@ -18,6 +18,45 @@ public class ShowResult : MonoBehaviour
 
     public void ShowScore() => StartCoroutine(CoShowScore());
 
+    public void CheckScore(float value, Text changeText)
+    {
+        if (value < 0.3f) ShowGrade("F", changeText);
+        else if (value < 0.4f) ShowGrade("D", changeText);
+        else if (value < 0.5f) ShowGrade("E", changeText);
+        else if (value < 0.6f) ShowGrade("C", changeText);
+        else if (value < 0.7f) ShowGrade("B", changeText);
+        else if (value < 0.9f) ShowGrade("A", changeText);
+        else if (value <= 1f) ShowGrade("S", changeText);
+    }
+
+    public void ShowGrade(string grade, Text changeText)
+    {
+        switch (grade)
+        {
+            case "F":
+                changeText.text = "F";
+                break;
+            case "D":
+                changeText.text = "D";
+                break;
+            case "E":
+                changeText.text = "E";
+                break;
+            case "C":
+                changeText.text = "C";
+                break;
+            case "B":
+                changeText.text = "B";
+                break;
+            case "A":
+                changeText.text = "A";
+                break;
+            case "S":
+                changeText.text = "S";
+                break;
+        }
+    }
+
     public IEnumerator CoShowScore()
     {
         int duration = 0;
@@ -41,10 +80,12 @@ public class ShowResult : MonoBehaviour
             yield return ws;
         }
         gradeText.gameObject.SetActive(true);
-        UIManager.instance.CheckScore(fillImage.fillAmount, gradeText);
-        gradeText.rectTransform.DOScale(Vector3.one, 0.5f).SetEase(Ease.InSine).OnComplete(() => Debug.Log("Done"));
-
-        UIManager.instance.InitGameUI();
-        GameManager.instance.InitGameData();
+        CheckScore(fillImage.fillAmount, gradeText);
+        gradeText.rectTransform.DOScale(Vector3.one, 0.5f).SetEase(Ease.InSine).OnComplete(() => {
+            UIManager.instance.InitGameUI();
+            GameManager.instance.InitGameData();
+        });
     }
+
+
 }

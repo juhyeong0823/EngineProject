@@ -47,41 +47,45 @@ public class UIManager : MonoBehaviour
     public Image startPanel; //패널오브젝트임
     public CanvasGroup countdownPanel; // 321 시작!
     public CanvasGroup ingameUIPanel;
+    public CanvasGroup menuPanel;
+    public CanvasGroup settingPanel;
 
-    private PlayerHeatlh player;
+    public Image hittedPanel;
+
 
     public Text scoreText;
-    public Text bg_gradeText;
+
     [Space(10)]
+    [Header("제목")]
     public Text topText;
     public Text middleText;
     public Text bottomText;
-    public Text countdownText;
+    public Text countdownText; // 3,2,1
 
     public Image hpImage;
 
-    public Button retryBtn;
-    public Button startBtn;
-    public Button settingBtn;
-    public Button quitBtn;
+    public Button retryBtn;  // 재시작
+    public Button startBtn;  // 게임시작
+    public Button settingBtn; // 옵션
+    public Button quitBtn;   // 게임종료
+    public Button menuOnBtn; // 인게임 메뉴 열기
+    public Button backToStartBtn;
+    public Button continueBtn;
+    public Button menuOff;
 
-    WaitForSeconds ws = new WaitForSeconds(0.01f);
     WaitForSeconds sec = new WaitForSeconds(1f);
     WaitForSeconds halfSec = new WaitForSeconds(0.5f);
 
     private void Start()
     {
-        player = GameObject.Find("Player").GetComponent<PlayerHeatlh>();
-        ButtonsInit();
+        StartPanelButtonsOnOff(false);
+        InitButtons();
         InitGameUI();
-        StartCoroutine(CoShowGrade());
         StartPanel_DOAnimPlay();
     }
 
-    void ButtonsInit()
+    void InitButtons()
     {
-        StartPanelButtonsOnOff(false);
-
         retryBtn.onClick.AddListener(() =>
         {
             resultPanel.transform.DOMoveY(resultPanel.transform.position.y + 120, 1f).SetEase(Ease.OutQuint).OnComplete(() => StartCoroutine(OnGameStart()));
@@ -91,6 +95,39 @@ public class UIManager : MonoBehaviour
         {
             startPanel.transform.DOMoveX(startPanel.transform.position.x + 220f, 1f);
             StartCoroutine(OnGameStart());
+        });
+
+        settingBtn.onClick.AddListener(() =>
+        {
+            PanelOn(settingPanel, true);
+        });
+
+        quitBtn.onClick.AddListener(() =>
+        {
+            Application.Quit();
+        });
+
+        menuOnBtn.onClick.AddListener(() =>
+        {
+            PanelOn(menuPanel, !menuPanel.interactable);
+            Time.timeScale = menuPanel.interactable ? 0 : 1;
+
+        });
+
+        backToStartBtn.onClick.AddListener(() =>
+        {
+            Time.timeScale = 1;
+        });
+
+        continueBtn.onClick.AddListener(() =>
+        {
+            Time.timeScale = 1;
+            PanelOn(menuPanel, false);
+        });
+
+        menuOff.onClick.AddListener(() =>
+        {
+            PanelOn(settingPanel, false);
         });
     }
 
@@ -114,7 +151,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void ShowResult()
+    public void OnGameOver()
     {
         ingameUIPanel.transform.DOMoveY(ingameUIPanel.transform.position.y - 35, 0.5f);
         resultPanel.transform.DOMoveY(resultPanel.transform.position.y - 120, 1f).OnComplete(() =>
@@ -127,18 +164,11 @@ public class UIManager : MonoBehaviour
         SetHp(GameManager.instance.hpCount);
     }
 
-    void PanelOff(CanvasGroup panel)
+    void PanelOn(CanvasGroup panel, bool on)
     {
-        panel.alpha = 0;
-        panel.interactable = false;
-        panel.blocksRaycasts = false;
-    }
-
-    void PanelOn(CanvasGroup panel)
-    {
-        panel.alpha = 1;
-        panel.interactable = true;
-        panel.blocksRaycasts = true;
+        panel.alpha = on ? 1 : 0;
+        panel.interactable = on;
+        panel.blocksRaycasts = on;
     }
 
     public void ImgOnOff(Image img)
@@ -146,63 +176,10 @@ public class UIManager : MonoBehaviour
         img.enabled = !img.enabled;
     }
 
-    public void CheckScore(float value, Text changeText)
-    {
-        if (value < 0.3f) ShowGrade("F", changeText);
-        else if (value < 0.4f) ShowGrade("D", changeText);
-        else if (value < 0.5f) ShowGrade("E", changeText);
-        else if (value < 0.6f) ShowGrade("C", changeText);
-        else if (value < 0.7f) ShowGrade("B", changeText);
-        else if (value < 0.9f) ShowGrade("A", changeText);
-        else if (value <= 1f) ShowGrade("S", changeText);
-    }
-
-    public void ShowGrade(string grade, Text changeText)
-    {
-        switch (grade)
-        {
-            case "F":
-                changeText.text = "F";
-                break;
-            case "D":
-                changeText.text = "D";
-                break;
-            case "E":
-                changeText.text = "E";
-                break;
-            case "C":
-                changeText.text = "C";
-                break;
-            case "B":
-                changeText.text = "B";
-                break;
-            case "A":
-                changeText.text = "A";
-                break;
-            case "S":
-                changeText.text = "S";
-                break;
-        }
-    }
-
-    public IEnumerator CoShowGrade()
-    {
-        while (PlayerMove.canMove)
-        {
-            float value = Mathf.Clamp(GameManager.instance.score / S_GRADE_SCORE, 0, 1);
-            CheckScore(value, bg_gradeText);
-            yield return ws;
-        }
-    } // 배경에 있는 등급보여주는 그거 ㅇㅇ
-
-    public void ShowGrade() => StartCoroutine(CoShowGrade());
-
-
-
 
     public void SetHp(int hpCount)
     {
-        foreach(var item in hpImages)
+        foreach (var item in hpImages)
         {
             Destroy(item);
         }
@@ -220,7 +197,7 @@ public class UIManager : MonoBehaviour
         Image img = Instantiate(hpImage, hpTrm);
         HpImageFill(img, true); // 채워진 상태 hp 추가되더라도 맞으면 색 바꿔서 맞은거 보이게
         hpImages.Add(img);
-        player.hp++;
+        GameManager.instance.playerHealth.hp++;
     }
 
     public void HpImageFill(Image img, bool fill)
@@ -237,7 +214,7 @@ public class UIManager : MonoBehaviour
     IEnumerator OnGameStart()
     {
         yield return sec;
-        PanelOn(countdownPanel);
+        PanelOn(countdownPanel, true);
         for (int i = 3; i > 0; i--)
         {
             countdownText.text = i.ToString();
@@ -247,9 +224,14 @@ public class UIManager : MonoBehaviour
         yield return halfSec;
         countdownText.text = "시작!";
 
-        PanelOff(countdownPanel);
+        PanelOn(countdownPanel, false);
         GameManager.instance.GameStart();
     }
 
-
+    public void OnHiitedEffect()
+    {
+        Debug.Log("체크");
+        hittedPanel.color = new Color(hittedPanel.color.r, hittedPanel.color.g, hittedPanel.color.b, 1f); // 이거 나중에 빼서 쓰자
+        hittedPanel.DOFade(0, 0.2f);
+    }
 }

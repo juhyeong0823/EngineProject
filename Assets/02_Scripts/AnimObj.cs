@@ -5,11 +5,10 @@ using DG.Tweening;
 
 public class AnimObj : MonoBehaviour
 {
-
     public void StopAnim()
     {
         GameManager.instance.OffPlayingAnim();
-        GameManager.instance.RandomPattern();
+        StartCoroutine(RestTime());
     }
 
     public void GroundMoveUp() => GameManager.instance.GroundMoveUp();
@@ -17,4 +16,10 @@ public class AnimObj : MonoBehaviour
     public void GroundMoveRight() => GameManager.instance.GroundMoveRight();
     public void GroundMoveLeft() => GameManager.instance.GroundMoveLeft();
     public void GroundMoveOriginPos() => GameManager.instance.GroundMoveOriginPos();
+
+    IEnumerator RestTime()
+    {
+        yield return new WaitForSeconds(5f);
+        GameManager.instance.RandomPattern();
+    }
 }
