@@ -7,7 +7,7 @@ public class AnimObj : MonoBehaviour
 {
     public void StopAnim()
     {
-        GameManager.instance.OffPlayingAnim();
+        Debug.Log("StopAnim");
         StartCoroutine(RestTime());
     }
 
@@ -19,7 +19,15 @@ public class AnimObj : MonoBehaviour
 
     IEnumerator RestTime()
     {
+        if (GameManager.instance.perfectClearChecker)
+        {
+            GameManager.instance.PlusScore(300f);
+            Debug.Log("scorePlus");
+        }
         yield return new WaitForSeconds(5f);
+
+        GameManager.instance.OffPlayingAnim();
         GameManager.instance.RandomPattern();
+        Debug.Log("RestTime");
     }
 }

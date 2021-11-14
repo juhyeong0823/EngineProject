@@ -32,14 +32,16 @@ public class GameManager : MonoBehaviour
     #endregion
 
     public List<GameObject> animObjPrefab = new List<GameObject>();
-    private List<GameObject> animObjs = new List<GameObject>();
+    public List<GameObject> animObjs = new List<GameObject>();
 
     public PlayerHeatlh playerHealth;
 
+    public bool perfectClearChecker = true;
 
     private GameObject playingAnimObj;
     public GameObject player;
     public GameObject ground;
+
     private Vector3 gOriginPos; // 바닥 기존 위치
     private Vector3 pOriginPos; // 플레이어 기존 위치
 
@@ -53,8 +55,6 @@ public class GameManager : MonoBehaviour
         pOriginPos = player.transform.position;
         gOriginPos = ground.transform.position;
         playerHealth = GameObject.Find("Player").GetComponent<PlayerHeatlh>();
-        InitGameData();
-
     }
 
     private void Update()
@@ -74,9 +74,10 @@ public class GameManager : MonoBehaviour
     {
         PlayerMove.canMove = true;
         playerHealth.hp = hpCount;
+        perfectClearChecker = true;
+        InitGameData();
         Init_animObjs();
         RandomPattern();
-        InitGameData();
     }
 
     public void InitGameData()
@@ -113,18 +114,13 @@ public class GameManager : MonoBehaviour
      
     public void RandomPattern()
     {
-        if (animObjPrefab.Count <= 0)
-        {
-            Debug.Log("애니메이션 넣어");
-            return;
-        }
-
         if (animObjs.Count <= 0) Init_animObjs();
  
         int rand = Random.Range(0, animObjs.Count - 1);
         playingAnimObj = animObjs[rand];
         playingAnimObj.SetActive(true);
         animObjs.Remove(playingAnimObj);
+        perfectClearChecker = true;
     }
 
     public void OffPlayingAnim()

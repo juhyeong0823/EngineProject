@@ -15,18 +15,19 @@ public class PlayerMove : MonoBehaviour
     public float speed;
     public float jumpPower;
     public float x = 0f;
+    public float y = 0f;
     public LayerMask groundLayer;
     public Transform groundChecker;
 
 
     Rigidbody2D rigid;
-    SpriteRenderer sr;
+    
 
     WaitForSeconds ws = new WaitForSeconds(0.2f); // 피격시 반짝반짝 딜레이
-    WaitForSeconds sec01 = new WaitForSeconds(0.05f); // 점프때매
 
     void Awake()
     {
+        SpriteRenderer sr;
         rigid = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
     }
@@ -42,16 +43,35 @@ public class PlayerMove : MonoBehaviour
 
     public void Jump()
     {
-        if (canJump)
+        if (y < 0)
+        {
+            Debug.Log("아랫점프");
+            RaycastHit2D hit = Physics2D.Raycast(groundChecker.position, Vector2.down);
+
+            if(hit.collider != null && hit.transform.name != "BaseGround")
+            {
+                if (hit.collider.CompareTag("Ground")) StartCoroutine(DownJump(hit.transform.gameObject.GetComponent<BoxCollider2D>()));
+            }
+        }
+        else if (canJump)
         {
             rigid.velocity = new Vector2(rigid.velocity.x, jumpPower);
             jumpCount++;
         }
+
+    }
+
+    IEnumerator DownJump(BoxCollider2D col) // 아랫점프
+    {
+        col.enabled = false;
+        yield return new WaitForSeconds(0.5f);
+        col.enabled = true;
     }
 
     void Move()
     {
         x = Input.GetAxisRaw("Horizontal");
+        y = Input.GetAxisRaw("Vertical");
         transform.position = new Vector2(Mathf.Clamp(transform.position.x, -8.5f, 8.5f), transform.position.y);
         rigid.velocity = new Vector2(x * speed, rigid.velocity.y);
     }
@@ -67,24 +87,5 @@ public class PlayerMove : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.CompareTag("Obstacle"))
-        {
-            StartCoroutine(Hitted());
-            //피격소리
-        }
-    }
 
-    IEnumerator Hitted()
-    {
-        Color myColor = sr.color;
-        for (int i = 0; i < 2; i++)
-        {
-            yield return ws;
-            sr.color = Color.gray; // 맞았을 때 투명하게
-            yield return ws;
-            sr.color = myColor; // 다시 자신 색으로
-        }
-    }
 }

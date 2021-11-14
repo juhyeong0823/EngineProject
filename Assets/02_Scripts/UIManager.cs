@@ -213,6 +213,7 @@ public class UIManager : MonoBehaviour
 
     IEnumerator OnGameStart()
     {
+        InitGameUI();
         yield return sec;
         PanelOn(countdownPanel, true);
         for (int i = 3; i > 0; i--)
@@ -230,8 +231,8 @@ public class UIManager : MonoBehaviour
 
     public void OnHiitedEffect()
     {
-        Debug.Log("체크");
         hittedPanel.color = new Color(hittedPanel.color.r, hittedPanel.color.g, hittedPanel.color.b, 1f); // 이거 나중에 빼서 쓰자
         hittedPanel.DOFade(0, 0.2f);
+        GameManager.instance.perfectClearChecker = false;
     }
 }
