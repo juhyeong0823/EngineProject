@@ -49,11 +49,13 @@ public class UIManager : MonoBehaviour
     public CanvasGroup ingameUIPanel;
     public CanvasGroup menuPanel;
     public CanvasGroup settingPanel;
+    public CanvasGroup rankingPanel;
+    public GameObject topBar;
+
 
     public Image hittedPanel;
-
-
     public Text scoreText;
+    public Text plusScoreText;
 
     [Space(10)]
     [Header("제목")]
@@ -62,17 +64,24 @@ public class UIManager : MonoBehaviour
     public Text bottomText;
     public Text countdownText; // 3,2,1
 
+
     public Image hpImage;
 
     public Button retryBtn;  // 재시작
     public Button startBtn;  // 게임시작
     public Button settingBtn; // 옵션
     public Button quitBtn;   // 게임종료
+    public Button exitBtn;   // 게임종료
     public Button menuOnBtn; // 인게임 메뉴 열기
     public Button backToStartBtn;
     public Button continueBtn;
     public Button menuOff;
+    public Button rankingBtn; 
+    public Button rankingPanelOffBtn; 
 
+
+    public InputField nickname;
+    
     WaitForSeconds sec = new WaitForSeconds(1f);
     WaitForSeconds halfSec = new WaitForSeconds(0.5f);
 
@@ -80,7 +89,6 @@ public class UIManager : MonoBehaviour
     {
         StartPanelButtonsOnOff(false);
         InitButtons();
-        InitGameUI();
         StartPanel_DOAnimPlay();
     }
 
@@ -89,6 +97,7 @@ public class UIManager : MonoBehaviour
         retryBtn.onClick.AddListener(() =>
         {
             resultPanel.transform.DOMoveY(resultPanel.transform.position.y + 120, 1f).SetEase(Ease.OutQuint).OnComplete(() => StartCoroutine(OnGameStart()));
+            topBar.gameObject.SetActive(true);
         });
 
         startBtn.onClick.AddListener(() =>
@@ -109,9 +118,9 @@ public class UIManager : MonoBehaviour
 
         menuOnBtn.onClick.AddListener(() =>
         {
+            if (!PlayerMove.canMove) return; 
             PanelOn(menuPanel, !menuPanel.interactable);
             Time.timeScale = menuPanel.interactable ? 0 : 1;
-
         });
 
         backToStartBtn.onClick.AddListener(() =>
@@ -129,6 +138,31 @@ public class UIManager : MonoBehaviour
         {
             PanelOn(settingPanel, false);
         });
+
+        rankingBtn.onClick.AddListener(() =>
+        {
+            if (!rankingPanel.interactable)
+            {
+                GameManager.instance.saver.Rank();
+            }
+            PanelOn(rankingPanel, true);
+        });
+
+        rankingPanelOffBtn.onClick.AddListener(() =>
+        {
+            PanelOn(rankingPanel, false);
+            List<RectTransform> objs = new List<RectTransform>(GameManager.instance.saver.rankParent.GetComponentsInChildren<RectTransform>());
+            objs.RemoveAt(0);
+            foreach(var item in objs)
+            {
+                Destroy(item.gameObject);
+            }
+        });
+
+        exitBtn.onClick.AddListener(() =>
+        {
+            GameManager.instance.BackToStart();
+        });
     }
 
     private void StartPanelButtonsOnOff(bool on)
@@ -136,6 +170,7 @@ public class UIManager : MonoBehaviour
         startBtn.interactable = on;
         settingBtn.interactable = on;
         quitBtn.interactable = on;
+        rankingBtn.interactable = on;
     }
 
     public void StartPanel_DOAnimPlay()
@@ -153,15 +188,25 @@ public class UIManager : MonoBehaviour
 
     public void OnGameOver()
     {
-        ingameUIPanel.transform.DOMoveY(ingameUIPanel.transform.position.y - 35, 0.5f);
+        ingameUIPanel.transform.DOMoveY(ingameUIPanel.transform.position.y - 40, 0.5f);
         resultPanel.transform.DOMoveY(resultPanel.transform.position.y - 120, 1f).OnComplete(() =>
         resultPanel.GetComponentInChildren<ShowResult>().ShowScore());
+    }
+
+    public void OnBackToStart()
+    {
+        ingameUIPanel.transform.DOMoveY(ingameUIPanel.transform.position.y - 40, 0.5f);
+        startPanel.transform.DOMoveX(startPanel.transform.position.x - 220f, 1f);
+        PanelOn(menuPanel, false);
+        Time.timeScale = 1;
     }
 
     public void InitGameUI()
     {
         scoreText.text = "0";
         SetHp(GameManager.instance.hpCount);
+        topBar.SetActive(true);
+        resultPanel.GetComponentInChildren<ShowResult>().gradeText.gameObject.SetActive(false);
     }
 
     void PanelOn(CanvasGroup panel, bool on)
@@ -179,9 +224,11 @@ public class UIManager : MonoBehaviour
 
     public void SetHp(int hpCount)
     {
-        foreach (var item in hpImages)
+        List<RectTransform> images = new List<RectTransform>(hpTrm.GetComponentsInChildren<RectTransform>());
+        images.RemoveAt(0);
+        foreach (var item in images)
         {
-            Destroy(item);
+            Destroy(item.gameObject);
         }
         hpImages.Clear();
         for (int i = 0; i < hpCount; i++) // hp 이미지들 
@@ -203,7 +250,7 @@ public class UIManager : MonoBehaviour
     public void HpImageFill(Image img, bool fill)
     {
         if (fill) img.color = Color.red;
-        else img.color = Color.gray;
+        else img.color = new Color(0, 0, 0, 0);
     }
 
     public void SetText(Text text, string textValue)
@@ -221,7 +268,7 @@ public class UIManager : MonoBehaviour
             countdownText.text = i.ToString();
             yield return halfSec;
         }
-        ingameUIPanel.transform.DOMoveY(ingameUIPanel.transform.position.y + 35, 0.5f);
+        ingameUIPanel.transform.DOMoveY(ingameUIPanel.transform.position.y + 40, 0.5f);
         yield return halfSec;
         countdownText.text = "시작!";
 
@@ -234,5 +281,17 @@ public class UIManager : MonoBehaviour
         hittedPanel.color = new Color(hittedPanel.color.r, hittedPanel.color.g, hittedPanel.color.b, 1f); // 이거 나중에 빼서 쓰자
         hittedPanel.DOFade(0, 0.2f);
         GameManager.instance.perfectClearChecker = false;
+    }
+
+    public void PlusScore_AnimEnd()
+    {
+        StartCoroutine(CoPlusScore_AnimEnd());
+    }
+
+    IEnumerator CoPlusScore_AnimEnd()
+    {
+        plusScoreText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        plusScoreText.gameObject.SetActive(false);
     }
 }

@@ -6,7 +6,7 @@ public class PlayerHeatlh : MonoBehaviour
 {
     public int hp;
     public bool isHitted = false;
-    public SpriteRenderer sr = null;
+    SpriteRenderer sr = null;
     Color myColor;
     void Start()
     {
@@ -15,19 +15,12 @@ public class PlayerHeatlh : MonoBehaviour
         myColor = sr.color;
     }
 
-    IEnumerator NotHittable()
-    {
-        isHitted = true;
-        yield return new WaitForSeconds(1.5f);
-        isHitted = false;
-    }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.CompareTag("Obstacle") && !isHitted)
+        if (col.CompareTag("Obstacle") && !isHitted && PlayerMove.canMove)
         {
             hp--;
-            StartCoroutine(NotHittable());
             StartCoroutine(Hitted());
             UIManager.instance.HpImageFill(UIManager.instance.hpImages[UIManager.instance.hpImages.Count - (hp + 1)], false);
             UIManager.instance.OnHiitedEffect();
@@ -41,8 +34,11 @@ public class PlayerHeatlh : MonoBehaviour
 
     IEnumerator Hitted()
     {
-        sr.color = Color.black; // 맞았을 때 투명하게
+        SoundManager.instance.efxPlayer.Play();
+        isHitted = true;
+        sr.color = new Color(myColor.r, myColor.g, myColor.b, 0.5f);
         yield return new WaitForSeconds(1.5f);
         sr.color = myColor; // 다시 자신 색으로
+        isHitted = false;
     }
 }

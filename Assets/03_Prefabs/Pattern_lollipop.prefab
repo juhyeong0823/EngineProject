@@ -600,6 +600,7 @@ GameObject:
   - component: {fileID: 6464930956075221319}
   - component: {fileID: 6464930956075221435}
   - component: {fileID: 6464930956075221432}
+  - component: {fileID: 491957331787239380}
   m_Layer: 5
   m_Name: Pattern_lollipop
   m_TagString: Untagged
@@ -723,6 +724,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bullet: {fileID: 3779150981068623323, guid: 9d08c5aaf091d70439f83965e29b4241, type: 3}
   bulletPos: {fileID: 6464930957032288075}
+--- !u!114 &491957331787239380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6464930956075221318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d482cea4553b02447a6f0c5b05a49b14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6464930956090534113
 GameObject:
   m_ObjectHideFlags: 0

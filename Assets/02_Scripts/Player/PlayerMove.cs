@@ -21,15 +21,10 @@ public class PlayerMove : MonoBehaviour
 
 
     Rigidbody2D rigid;
-    
-
-    WaitForSeconds ws = new WaitForSeconds(0.2f); // ÇÇ°Ý½Ã ¹ÝÂ¦¹ÝÂ¦ µô·¹ÀÌ
 
     void Awake()
     {
-        SpriteRenderer sr;
         rigid = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -78,14 +73,11 @@ public class PlayerMove : MonoBehaviour
 
     void CanJumpCheck()
     {
-        if (Physics2D.Raycast(groundChecker.position, Vector2.down, 0.05f, groundLayer))
+        if (Physics2D.Raycast(groundChecker.position, Vector2.down, 0.05f, groundLayer) && rigid.velocity.y <= 0)
         {
             jumpCount = 0;
         } 
         if (jumpCount < maxJumpCount) canJump = true;
         else canJump = false;
     }
-
-
-
 }

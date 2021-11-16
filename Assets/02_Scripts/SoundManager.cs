@@ -31,12 +31,17 @@ public class SoundManager : MonoBehaviour
     }
     #endregion
 
-
     public Slider audioSlider;
     public Slider efxSlider;
     public AudioSource audioPlayer;
     public AudioSource efxPlayer;
 
+
+    private void Start()
+    {
+        audioSlider.value = 0.1f;
+        efxSlider.value = 0.1f;
+    }
 
     private void Update()
     {
@@ -48,6 +53,4 @@ public class SoundManager : MonoBehaviour
         audioPlayer.volume = audioSlider.value;
         efxPlayer.volume = efxSlider.value;
     }
-
-
 }

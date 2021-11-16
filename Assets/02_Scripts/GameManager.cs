@@ -35,15 +35,18 @@ public class GameManager : MonoBehaviour
     public List<GameObject> animObjs = new List<GameObject>();
 
     public PlayerHeatlh playerHealth;
+    public Saver saver;
 
     public bool perfectClearChecker = true;
 
     private GameObject playingAnimObj;
     public GameObject player;
     public GameObject ground;
+    public GameObject potionPrefab;
 
-    private Vector3 gOriginPos; // 바닥 기존 위치
-    private Vector3 pOriginPos; // 플레이어 기존 위치
+    public Transform gOriginPos; // 바닥 기존 위치
+    public Transform pOriginPos; // 플레이어 기존 위치
+    public Transform potionMakePos; // 포션 생성 위치
 
     public int hpCount = 3;
 
@@ -52,8 +55,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        pOriginPos = player.transform.position;
-        gOriginPos = ground.transform.position;
         playerHealth = GameObject.Find("Player").GetComponent<PlayerHeatlh>();
     }
 
@@ -66,8 +67,20 @@ public class GameManager : MonoBehaviour
     {
         PlayerMove.canMove = false;
         UIManager.instance.OnGameOver();
+        UIManager.instance.topBar.SetActive(false);
         AllOfAnimationOff();
         playingAnimObj = null;
+        SoundManager.instance.audioPlayer.Stop();
+    }
+
+    public void BackToStart()
+    {
+        PlayerMove.canMove = false;
+        UIManager.instance.OnBackToStart();
+        UIManager.instance.topBar.SetActive(false);
+        AllOfAnimationOff();
+        playingAnimObj = null;
+        SoundManager.instance.audioPlayer.Stop();
     }
 
     public void GameStart()
@@ -75,16 +88,19 @@ public class GameManager : MonoBehaviour
         PlayerMove.canMove = true;
         playerHealth.hp = hpCount;
         perfectClearChecker = true;
+        UIManager.instance.InitGameUI();
         InitGameData();
         Init_animObjs();
         RandomPattern();
+        SoundManager.instance.audioPlayer.Play();
+        
     }
 
     public void InitGameData()
     {
         score = 0;
-        player.transform.position = pOriginPos;
-        ground.transform.position = gOriginPos;
+        player.transform.position = pOriginPos.position;
+        ground.transform.position = gOriginPos.position;
     }
 
     void ScoreUpdate()
@@ -159,10 +175,15 @@ public class GameManager : MonoBehaviour
 
     //애는 바닥 이동하는 애니메이션이 끝나면 실행해서 다시 돌려보내고..
     public void GroundMoveOriginPos() {
-        ground.transform.DOMove(gOriginPos, 1.5f);
+        ground.transform.DOMove(gOriginPos.position, 1.5f);
     }
 
-
+    public void DropPotion() 
+    {
+        if(score < 6000) // c등급까지만 포션이 나옴
+            Instantiate(potionPrefab, potionMakePos.position, Quaternion.identity);
+    }
+    
     #endregion
 
 }

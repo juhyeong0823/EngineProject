@@ -8,6 +8,12 @@ public class AnimObj : MonoBehaviour
     public void StopAnim()
     {
         Debug.Log("StopAnim");
+        if (GameManager.instance.playerHealth.hp < 5)
+        {
+            GameManager.instance.playerHealth.hp++;
+            UIManager.instance.SetHp(GameManager.instance.playerHealth.hp);
+        }
+       
         StartCoroutine(RestTime());
     }
 
@@ -22,9 +28,10 @@ public class AnimObj : MonoBehaviour
         if (GameManager.instance.perfectClearChecker)
         {
             GameManager.instance.PlusScore(300f);
+            UIManager.instance.PlusScore_AnimEnd();
             Debug.Log("scorePlus");
         }
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
 
         GameManager.instance.OffPlayingAnim();
         GameManager.instance.RandomPattern();
