@@ -8,6 +8,7 @@ TagManager:
   - Ground
   - PlayerDroppedChecker
   - Potion
+  - NoLimitJump
   layers:
   - Default
   - TransparentFX

@@ -67,7 +67,6 @@ public class GameManager : MonoBehaviour
     {
         PlayerMove.canMove = false;
         UIManager.instance.OnGameOver();
-        UIManager.instance.topBar.SetActive(false);
         AllOfAnimationOff();
         playingAnimObj = null;
         SoundManager.instance.audioPlayer.Stop();

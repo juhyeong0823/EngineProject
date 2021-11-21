@@ -32,7 +32,7 @@ public class PlayerMove : MonoBehaviour
         if (!canMove) return;
         Move();
         CanJumpCheck();
-        if (Input.GetButtonDown("Jump"))    Jump();
+        if (Input.GetButtonDown("Jump")) Jump();
 
     }
 
@@ -43,7 +43,7 @@ public class PlayerMove : MonoBehaviour
             Debug.Log("아랫점프");
             RaycastHit2D hit = Physics2D.Raycast(groundChecker.position, Vector2.down);
 
-            if(hit.collider != null && hit.transform.name != "BaseGround")
+            if (hit.collider != null && hit.transform.name != "BaseGround")
             {
                 if (hit.collider.CompareTag("Ground")) StartCoroutine(DownJump(hit.transform.gameObject.GetComponent<BoxCollider2D>()));
             }
@@ -76,8 +76,17 @@ public class PlayerMove : MonoBehaviour
         if (Physics2D.Raycast(groundChecker.position, Vector2.down, 0.05f, groundLayer) && rigid.velocity.y <= 0)
         {
             jumpCount = 0;
-        } 
+        }
         if (jumpCount < maxJumpCount) canJump = true;
         else canJump = false;
+    }
+
+    private void OnTriggerStay2D(Collider2D col)
+    {
+        if (col.gameObject.CompareTag("NoLimitJump"))
+        {
+            Debug.Log("체크");
+            jumpCount = 0;
+        }
     }
 }

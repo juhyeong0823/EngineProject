@@ -78,13 +78,16 @@ public class Saver : MonoBehaviour
         SendPostRequest($"{baseUrl}/rank", "", (res) =>
         {
             Debug.Log(res);
-            saveDataListVO vo = JsonUtility.FromJson<saveDataListVO>(res);
-            
-            foreach(var item in vo.list)
+            if (res != null)
             {
-                RankShowObjPrefab obj = Instantiate(rankPrefab, rankParent);
-                obj.NameText.text = item.name;
-                obj.ScoreText.text = item.score.ToString();
+                saveDataListVO vo = JsonUtility.FromJson<saveDataListVO>(res);
+
+                foreach (var item in vo.list)
+                {
+                    RankShowObjPrefab obj = Instantiate(rankPrefab, rankParent);
+                    obj.NameText.text = item.name;
+                    obj.ScoreText.text = item.score.ToString();
+                }
             }
         });
     }

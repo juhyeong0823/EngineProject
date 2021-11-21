@@ -9,7 +9,6 @@ public class ShowResult : MonoBehaviour
     
     const float S_SCORE = 10000f;
     public Image fillImage;
-    public Image icon;
 
     public Text gradeText;
     public Text scoreText;
@@ -64,7 +63,6 @@ public class ShowResult : MonoBehaviour
         int duration = 0;
         int newScore = (int)GameManager.instance.score;
         int remainScore = newScore;
-        float iconPosY = icon.rectTransform.anchoredPosition.y;
         float score = 0f;
 
         GameManager.instance.saver.LoadScore(bestScoreText); // 지금 점수만 적혀있음 
@@ -80,8 +78,6 @@ public class ShowResult : MonoBehaviour
             fillImage.fillAmount = Mathf.Clamp(score / S_SCORE, 0, 1);
             scoreText.text = score.ToString();
 
-            Vector2 iconMovePos = new Vector2(icon.rectTransform.anchoredPosition.x, iconPosY + fillImage.rectTransform.rect.height * fillImage.fillAmount); // 옆에 그림 선
-            icon.rectTransform.anchoredPosition = iconMovePos;
             yield return ws;
         }
         gradeText.rectTransform.localScale = new Vector3(3, 3, 1);
