@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
+//VO들은 전부 서버와 데이터를 주고받기 위한 수단입니다.
+
 [System.Serializable]
 public class saveDataVo
 {
@@ -36,7 +38,7 @@ public class ScoreVo
 }
 
 [System.Serializable]
-public class NameVO
+public class NameVO 
 {
     public string name;
 
@@ -67,22 +69,22 @@ public class Saver : MonoBehaviour
         Debug.Log(name.Length);
         if (name.Length > 1)
         {
-            string json = JsonUtility.ToJson(new saveDataVo(score, name));
-            SendPostRequest($"{baseUrl}/save", json, (res) => Debug.Log("Save 완료"));
+            string json = JsonUtility.ToJson(new saveDataVo(score, name)); // 제이슨으로 변환해서
+            SendPostRequest($"{baseUrl}/save", json, (res) => Debug.Log("Save 완료")); // 보내버립니다!
         }
     }
 
     public void Rank()
     {
         Debug.Log("Rank");
-        SendPostRequest($"{baseUrl}/rank", "", (res) =>
+        SendPostRequest($"{baseUrl}/rank", "", (res) => 
         {
-            Debug.Log(res);
+            Debug.Log(res); // 이 res에는 이름과 점수 리스트가 넘어오고
             if (res != null)
             {
-                saveDataListVO vo = JsonUtility.FromJson<saveDataListVO>(res);
+                saveDataListVO vo = JsonUtility.FromJson<saveDataListVO>(res); // 리스트로 받아서
 
-                foreach (var item in vo.list)
+                foreach (var item in vo.list) // 프리팹 생성후 그 안의 텍스트들에 서버로부터 받은 값을 넣어줍니다.
                 {
                     RankShowObjPrefab obj = Instantiate(rankPrefab, rankParent);
                     obj.NameText.text = item.name;
@@ -95,9 +97,9 @@ public class Saver : MonoBehaviour
     public void LoadScore(Text scoreText)
     {
         Debug.Log("LoadScore");
-        string json = JsonUtility.ToJson(new NameVO(UIManager.instance.nickname.text));
+        string json = JsonUtility.ToJson(new NameVO(UIManager.instance.nickname.text)); // 이름을 보내주고
 
-        if (UIManager.instance.nickname.text.Length <= 1)
+        if (UIManager.instance.nickname.text.Length <= 1) // 이름을 넣지 않았다면 로드하지 않습니다.
         {
             UIManager.instance.resultPanel.GetComponentInChildren<ShowResult>().bestScoreText.text = $"BestScore : 0";
             return;
@@ -105,7 +107,7 @@ public class Saver : MonoBehaviour
 
         SendPostRequest($"{baseUrl}/load", json, (res) =>
         {
-            Debug.Log(res);
+            Debug.Log(res); // 점수를 받아와 업데이트하거나 새로 저장, 불러오기 등을 실행합니다
 
             if(res.Length > 1)
             {
@@ -144,7 +146,7 @@ public class Saver : MonoBehaviour
         UnityWebRequest req = UnityWebRequest.Post(url, payload);
         req.SetRequestHeader("Content-Type", "application/json");
 
-        if(payload.Length > 1)
+        if(payload.Length > 1) // 혹시 전송할 payload가 없을 수 있으니까
         {
             byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(payload);
             req.uploadHandler = new UploadHandlerRaw(jsonToSend);

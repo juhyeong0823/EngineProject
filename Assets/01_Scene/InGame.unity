@@ -1762,8 +1762,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hpImages: []
-  startPanelTextMovePos: {fileID: 2145371327}
-  hpTrm: {fileID: 2141438936}
+  titleTextMovePos: {fileID: 2145371327}
+  hpImagesParent: {fileID: 2141438936}
   hpImage: {fileID: 5615575415968436571, guid: 83863a2cf140c774d9bb778ed8baf1e9, type: 3}
   scoreText: {fileID: 1160167120}
   plusScoreText: {fileID: 1509499088}
@@ -1784,15 +1784,15 @@ MonoBehaviour:
   startBtn: {fileID: 1225690112}
   quitBtn: {fileID: 892576163}
   settingBtn: {fileID: 1055646705}
-  rankingBtn: {fileID: 215723941}
+  settingOffBtn: {fileID: 892576163}
   explainShowBtn: {fileID: 1149267580}
   explainOffBtn: {fileID: 1218664883}
+  rankingBtn: {fileID: 215723941}
   rankingPanelOffBtn: {fileID: 686083654}
   exitBtn: {fileID: 573413223}
   retryBtn: {fileID: 1075322355}
   menuOnBtn: {fileID: 1569829804}
-  menuOff: {fileID: 856651533}
-  backToStartBtn: {fileID: 573413223}
+  backToMain: {fileID: 573413223}
   continueBtn: {fileID: 1462921266}
   nickname: {fileID: 1868771667}
 --- !u!1 &435630728
@@ -9797,6 +9797,10 @@ MonoBehaviour:
   animObjPrefab:
   - {fileID: 3878806657798684105, guid: 734011d726c79184ea2f50a6be7fecdc, type: 3}
   - {fileID: 6862952152298537008, guid: abed6d382571de742bcf0d8255f4e9d4, type: 3}
+  - {fileID: 7346253633456469772, guid: a5baf37c5f06e5c48a1f005c7a108a6f, type: 3}
+  - {fileID: 4810131523466715634, guid: fd4d6c5e38e8694468ae78e079d584e5, type: 3}
+  - {fileID: 6464930956075221318, guid: 56f41c909050e524bae6b082e856a09a, type: 3}
+  - {fileID: 2510128235664993207, guid: 381571e75eb7cdf49b02c531a059a679, type: 3}
   animObjs: []
   playerHealth: {fileID: 0}
   saver: {fileID: 60859221}

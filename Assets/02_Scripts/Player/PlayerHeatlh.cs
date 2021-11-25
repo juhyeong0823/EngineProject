@@ -16,14 +16,14 @@ public class PlayerHeatlh : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter2D(Collider2D col)
+    private void OnTriggerEnter2D(Collider2D col) // 피격시, 이미 맞은 상태가 아니면 실행, 체력이 0이하가 되면 게임오버
     {
-        if (col.CompareTag("Obstacle") && !isHitted && PlayerMove.canMove)
+        if (col.CompareTag("Obstacle") && !isHitted)
         {
             hp--;
             StartCoroutine(Hitted());
-            UIManager.instance.HpImageFill(UIManager.instance.hpImages[UIManager.instance.hpImages.Count - (hp + 1)], false);
-            UIManager.instance.OnHiitedEffect();
+            UIManager.instance.HpImageFill(UIManager.instance.hpImages[UIManager.instance.hpImages.Count - (hp + 1)], false); // 체력 이미지 하나 없애기
+            UIManager.instance.OnHiitedEffect(); // 피격시 특정 색의 창이 나타났다 페이드아웃됌
 
             if (hp <= 0)
             {
@@ -31,8 +31,8 @@ public class PlayerHeatlh : MonoBehaviour
             }
         }
     }
-
-    IEnumerator Hitted()
+    
+    IEnumerator Hitted() // 피격음 출력하고 잠시 플레이어의 몸을 투명한색으로 바꿨다가 다시 원래 색으로 돌아가게 함.
     {
         SoundManager.instance.efxPlayer.Play();
         isHitted = true;

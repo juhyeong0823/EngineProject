@@ -37,6 +37,7 @@ public class SoundManager : MonoBehaviour
     public AudioSource efxPlayer;
 
 
+    //기본 음량은 적게
     private void Start()
     {
         audioSlider.value = 0.1f;
@@ -48,6 +49,7 @@ public class SoundManager : MonoBehaviour
         VolumeSetting();
     }
 
+    //슬라이더의 벨류에 따라 음량 조절
     void VolumeSetting()
     {
         audioPlayer.volume = audioSlider.value;

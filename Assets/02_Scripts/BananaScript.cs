@@ -7,12 +7,12 @@ public class BananaScript : MonoBehaviour
     public GameObject bananaPrefab;
     public Transform spawnTrm;
 
-    public void DropBanana()
+    public void DropBanana() // 애니메이션 이벤트 함수
     {
         StartCoroutine(CoDropBanana());
     }
 
-    IEnumerator CoDropBanana()
+    IEnumerator CoDropBanana() // 위에서 50개정도 랜덤한 위치에 떨어뜨리기
     {
         for (int i = 0; i < 25; i++) 
         {
