@@ -5,16 +5,16 @@ using UnityEngine;
 public class LollipopAttack : MonoBehaviour
 {
     public GameObject bullet;
-    public RectTransform bulletPos;
+    public RectTransform bulletPos; // 처음 위치
     WaitForSeconds ws= new WaitForSeconds(1.5f);
 
 
-    public void Attack()
+    public void Attack() // 애니메이션 이벤트 함수
     {
         StartCoroutine(CircleShoot());
     }
 
-    IEnumerator CircleShoot()
+    IEnumerator CircleShoot() //  4~7개 랜덤 갯수로 원형으로 쏘는 친구
     {
         for (int j = 0; j < 7; j++)
         {

@@ -22,7 +22,7 @@ public class PlayerMove : MonoBehaviour
 
     Rigidbody2D rigid;
 
-    void Awake()
+    void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
     }
@@ -43,7 +43,7 @@ public class PlayerMove : MonoBehaviour
             Debug.Log("아랫점프");
             RaycastHit2D hit = Physics2D.Raycast(groundChecker.position, Vector2.down);
 
-            if (hit.collider != null && hit.transform.name != "BaseGround")
+            if (hit.collider != null && hit.transform.name != "BaseGround") // 맨 밑에 바닥에서도 내려가 버리면 문제가 생기니까
             {
                 if (hit.collider.CompareTag("Ground")) StartCoroutine(DownJump(hit.transform.gameObject.GetComponent<BoxCollider2D>()));
             }
@@ -56,7 +56,7 @@ public class PlayerMove : MonoBehaviour
 
     }
 
-    IEnumerator DownJump(BoxCollider2D col) // 아랫점프
+    IEnumerator DownJump(BoxCollider2D col) // 플레이어 아래 오브젝트의 콜라이더를 꺼서 잠시 내려갈 수 있게 만듬
     {
         col.enabled = false;
         yield return new WaitForSeconds(0.5f);
@@ -67,7 +67,7 @@ public class PlayerMove : MonoBehaviour
     {
         x = Input.GetAxisRaw("Horizontal");
         y = Input.GetAxisRaw("Vertical");
-        transform.position = new Vector2(Mathf.Clamp(transform.position.x, -8.5f, 8.5f), transform.position.y);
+        transform.position = new Vector2(Mathf.Clamp(transform.position.x, -8.5f, 8.5f), transform.position.y); // 일정 범위내에서만 이동
         rigid.velocity = new Vector2(x * speed, rigid.velocity.y);
     }
 
